@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Artix Linux安装
-date: 2026-05-20 00:08:00 +0800
+date: 2026-05-20
 tags: [Artix Linux, 操作系统, 520]
 ---
 
