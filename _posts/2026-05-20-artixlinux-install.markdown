@@ -1,11 +1,9 @@
 ---
 layout: post
-title: Artix Linux安装
+title: Artix Linux安装教程
 date: 2026-05-20
-tags: [Artix Linux, 操作系统, 520]
+tags: [Artix Linux,操作系统,520]
 ---
-
-# Artix Linux安装
 
 520当然要陪电脑过啦\(\)。给你的电脑"送"一个新的操作系统吧。
 
