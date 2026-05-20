@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.9.0 -->
+<title>Artix Linux安装 | Ciallo～(∠·ω&lt; )⌒★</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Artix Linux安装" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Artix Linux安装" />
+<meta name="twitter:description" property="og:description" content="Artix Linux安装" />
+<link rel="canonical" href="http://localhost:4000/2026/05/20/artixlinux-install.html" />
+<meta property="og:url" content="http://localhost:4000/2026/05/20/artixlinux-install.html" />
+<meta property="og:site_name" content="Ciallo～(∠·ω&lt; )⌒★" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-05-20T00:00:00+08:00" />
+<meta property="article:modified_time" content="2026-05-20T00:00:00+08:00" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Artix Linux安装" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2026-05-20T00:00:00+08:00","datePublished":"2026-05-20T00:00:00+08:00","description":"Artix Linux安装","headline":"Artix Linux安装","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2026/05/20/artixlinux-install.html"},"url":"http://localhost:4000/2026/05/20/artixlinux-install.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Ciallo～(∠·ω&lt; )⌒★" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Ciallo～(∠·ω&lt; )⌒★</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Artix Linux安装</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2026-05-20T00:00:00+08:00" itemprop="datePublished">May 20, 2026
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="artix-linux安装">Artix Linux安装</h1>
+
+<p>520当然要陪电脑过啦()。给你的电脑”送”一个新的操作系统吧。</p>
+
+<p>本教程将说明如何给单硬盘，UEFI启动的电脑去掉Windows并安装Artix Linux。</p>
+
+<blockquote>
+  <h2 id="the-art-of-linux---simple-fast-systemd-free">The Art of Linux - Simple. Fast. Systemd-free.</h2>
+
+  <h3 id="artix-linux-is-a-rolling-release-distribution-based-on-arch-linux">Artix Linux is a rolling-release distribution, based on Arch Linux.</h3>
+  <h3 id="it-uses-real-init-systems-because-pid1-must-be-simple-secure-and-stable">It uses real init systems, because PID1 must be simple, secure and stable.</h3>
+
+  <p>-<a href="https://artixlinux.org/">Artix Linux官网首页</a></p>
+</blockquote>
+
+<p>Artix Linux是一个基于ArchLinux的发行版。正如官网所说，Artix Linux是滚动发行版，软件包会持续得到更新，而不是固定在某个版本。Artix Linux不使用systemd这种极其复杂，极其庞大，耦合度高的init系统，而是使用OpenRC、s6、runit、dinit这些轻量，配置简洁，低耦合的init系统。</p>
+
+<blockquote>
+  <p>继续本篇之前，需要明确一点，Artix Linux所使用的几个init系统，普及度远不及systemd。如果使用过程中出现了问题，可能无法通过systemd的方法去解决。如果不太了解其中的区别，建议优先使用中文社区更庞大的ArchLinux。如果想尝试Artix Linux，或者摆脱systemd的”大手”，应当多查阅资料。</p>
+</blockquote>
+
+<blockquote>
+  <p>善用pacman -Ss命令去搜索软件包，并配合各种AI工具和浏览器，可提升大量系统使用体验。</p>
+</blockquote>
+
+<h2 id="安装前的准备">安装前的准备</h2>
+
+<p>本篇介绍通过tty界面手动安装OpenRC的Artix Linux，其他init系统(s6、runit、dinit)请查阅其他资料。图形化的安装在本篇也不赘述，但可以通过图形化里面的终端来安装(本教程也适用)，通过图形化启动可以通过图形化界面连接WiFi，省掉复杂的命令行。</p>
+
+<ol>
+  <li>以自己喜欢的方法将数据备份到其他设备或者云盘，并且准备一个U盘
+    <blockquote>
+      <p><span style="color:red;">警告：任何操作均强烈建议备份数据，以防止数据丢失。</span>
+没有U盘也可以将ventoy烧录到另一个硬盘<span style="color:red;">但是会清除数据</span>。本篇不介绍这个方法。</p>
+    </blockquote>
+
+    <blockquote>
+      <p>如果你更硬核，并且没有U盘和多硬盘，你可以直接将Ventoy作为系统引导而不使用GRUB(或者wimboot)。这种操作一旦翻车将无法进入操作系统而变成大号板砖，只能通过烧录了镜像的U盘来救系统。本篇不介绍此方法。</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>确保网络环境</p>
+
+    <p>如果你可以使用路由器分接出来的网线，以 dhcp 的方式直接上网，那么不用准备什么。如果你的环境只能使用无线网络安装，需要事先把自己所用的 wifi 名称改成自己能记住的英文名称。因为安装时无法显示和输入中文名的 wifi，你会看到一堆不知道是什么的方块，并且在安装过程中你将没有办法输入中文的无线名称进行连接。</p>
+
+    <blockquote>
+      <p>注意：一般情况下，tty无法显示中文，不论是安装还是安装完毕，包括安装了中文字体与给GUI配置了中文。</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>下载并烧录Ventoy</p>
+
+    <p>在<a href="https://www.ventoy.net/cn/download.html">Ventoy官网</a>下载适合你当前操作系统的文件。并通过该网站的<code class="language-plaintext highlighter-rouge">文档手册-使用说明</code>页面，将Ventoy安装到U盘或者另一个硬盘。</p>
+
+    <blockquote>
+      <p>Ventoy是一个制作可启动U盘的开源工具。有了Ventoy你就无需反复地格式化U盘，只需要把文件直接拖到U盘里面就可以启动了，无需其他操作。你可以一次性拷贝多个镜像文件并创建子目录分类存放，Ventoy 会在启动时显示一个菜单来供你进行选择，同时还不影响U盘的日常使用。</p>
+    </blockquote>
+
+    <blockquote>
+      <p><span style="color:red;">但是，首次安装Ventoy会格式化U盘。</span></p>
+    </blockquote>
+  </li>
+  <li>
+    <p>下载Artix Linux的OpenRC安装镜像</p>
+
+    <p>在<a href="https://mirrors.tuna.tsinghua.edu.cn/artixlinux-iso">镜像站</a>(推荐)或<a href="https://artixlinux.org/download.php">官网</a>下载<code class="language-plaintext highlighter-rouge">artix-base-openrc-yyyymmdd-x86_64.iso</code>文件。下载完毕后放到U盘。如果烧录的是另一块硬盘则放到提前准备的fat32文件系统的分区。</p>
+
+    <blockquote>
+      <p>yyyymmdd是日期，yyyy是年，mm是月，dd是日。截至本文编写，安装镜像的名称是<code class="language-plaintext highlighter-rouge">artix-base-openrc-20260402-x86_64.iso</code>。意思是这个iso镜像是artix发行版，含有最基础的启动套件，使用openrc作为init系统，于2026年4月2日发布(实际下载时日期会改变，以实际为准)，用于x86_64指令集。现代的Intel与AMD都是x86_64。</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>了解你的主板启动模式</p>
+
+    <p>通过磁盘工具(例如Windows安装DiskGenius)查看是否有几百mb的<code class="language-plaintext highlighter-rouge">efi</code>或者<code class="language-plaintext highlighter-rouge">esp</code>分区。如果没有则进入到主板设置，尝试找到启动模式，将其设置为UEFI。如果没有efi且无法设置则只能使用Legacy引导。本文暂不讲述Legacy引导方式安装。
+ 如果你需要保留Windows操作系统，使用DiskGenius提前分区。本文不介绍多系统共存，全盘安装一个Aritix Linux。</p>
+  </li>
+  <li>
+    <p>关闭主板安全启动</p>
+
+    <p>查询你的主板品牌如何关闭安全启动(secure boot)。安全启动会影响到Artix Linux的安装与启动。</p>
+
+    <blockquote>
+      <p>或者在接下来进入Artix Linux的Live环境来确认。</p>
+    </blockquote>
+  </li>
+</ol>
+
+<h2 id="开始安装">开始安装</h2>
+
+<ol>
+  <li>
+    <p>启动到Artix Linux的Live环境</p>
+
+    <p>查询你的主板品牌如何进入选择硬盘引导界面。插入U盘，重启/开机电脑，电脑屏幕点亮后立即连点按键，直到出现选择硬盘界面。</p>
+
+    <blockquote>
+      <p>如果不知道具体哪个设备，可以一个一个尝试。当屏幕出现Ventoy字样的图片时则说明选择正确。</p>
+    </blockquote>
+
+    <p>通过键盘的上下键，移动到artix-base一栏回车，normal mode再按一下回车，向下移动到From CD/DVD/ISO: artix.x86_64然后回车，稍等片刻，直到出现大量文字，最下面一行是<code class="language-plaintext highlighter-rouge">artix-live login: _</code>，说明Live环境启动完毕。</p>
+  </li>
+  <li>
+    <p>登陆</p>
+
+    <p>提示：在tty界面，使用TAB或者上下切换历史命令或者左右移动光标失败时，将会听到很大的蜂鸣器的声音。请做好心理准备。
+ 使用root账户登陆:输入<code class="language-plaintext highlighter-rouge">root</code>。然后输入密码<code class="language-plaintext highlighter-rouge">artix</code>。</p>
+
+    <blockquote>
+      <p>在输入密码时候，默认是不给提示的/(星号都没有/)。这在Live与正式使用，tty与终端模拟器都是这样的。</p>
+    </blockquote>
+
+    <p>如果登陆成功，tty最后一行将显示<code class="language-plaintext highlighter-rouge">artix-live:\[root\]:~# _</code></p>
+  </li>
+  <li>
+    <p>查询电脑是否为UEFI启动</p>
+
+    <blockquote>
+      <p>如果不确定是否为UEFI启动，输入</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ls /sys/firmware/efi/efivars
+</code></pre></div>      </div>
+      <p>如果输出了很多行，则电脑是UEFI启动，否则为Legacy启动。</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>连接网络</p>
+
+    <p>如果电脑连接到有线网络，它会自动配置。
+ 如果需要连接WiFi，则使用<code class="language-plaintext highlighter-rouge">[wpa_supplicant](https://wiki.archlinuxcn.org/wiki/Wpa_supplicant)</code>工具</p>
+
+    <blockquote>
+      <p>运行以下命令进入wpa_cli交互界面</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wpa_cli
+</code></pre></div>      </div>
+      <p>运行后行首变为<code class="language-plaintext highlighter-rouge">&gt;</code>
+wpa_cli会自动寻找无线网卡接口，通常为wlan0</p>
+
+      <p>查看可用WiFi</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scan
+scan_results
+</code></pre></div>      </div>
+      <p>注意每一条最后<code class="language-plaintext highlighter-rouge">SSID</code>的信息，这个是网络的名称。</p>
+
+      <p>添加网络，配置凭证并启用</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>add_network
+set_network 0 ssid "mywifi"
+set_network 0 psk "mywifipasswd"
+enable_network 0
+</code></pre></div>      </div>
+      <p>这里的<code class="language-plaintext highlighter-rouge">mywifi</code>是WiFi名称，<code class="language-plaintext highlighter-rouge">mywifipasswd</code>是WiFi的密码
+如果你不明白意思，将WiFi名称设置为<code class="language-plaintext highlighter-rouge">mywifi</code>，密码设置为<code class="language-plaintext highlighter-rouge">mywifipasswd</code>，然后直接抄命令。</p>
+
+      <p>连接成功后，退出wpa_cli回到tty</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>quit
+</code></pre></div>      </div>
+      <p>回到tty将显示<code class="language-plaintext highlighter-rouge">artix-live:\[root\]:~# _</code></p>
+
+      <p>运行命令获取IP地址</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dhclient
+</code></pre></div>      </div>
+
+      <p>获取IP地址后，运行命令检查连接</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ping m.bilibili.com
+</code></pre></div>      </div>
+
+      <p>确认连接无误后，运行以下命令同步时间</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rc-service ntpd start
+</code></pre></div>      </div>
+
+      <p>(可选)连接<a href="https://wiki.archlinuxcn.org/wiki/OpenSSH">SSH</a></p>
+    </blockquote>
+
+    <p>如果使用WiFi等局域网，可以用SSH连接，使用其他设备(包括各个Linux发行版、Windows、Mac、BSD与Android)连接到Artix Linux Live进行安装。可以复制粘贴命令，也更容易截图求助。</p>
+
+    <p>如果Artix Linux连接到了公网，那么就不会有局域网限制。甚至可以让其他人使用SSH帮你安装(但这样就没有折腾的意义了，真要这样建议使用图形化更方便)。
+ <span style="color:red;">警告：如果能连接到公网，那么别人除了能为你安装，还能对你进行一些”别有用心”的操作。不使用密钥的SSH暴露到公网是危险的。</span></p>
+    <blockquote>
+      <p>局域网与公网的详细概念在本篇不做具体描述。只需要知道两个设备连接一个WiFi一定能用局域网连接。</p>
+
+      <p>先确认你手上除了Artix Linux Live,还有什么设备连接了同一个Wifi。设备可以是各个Linux发行版、Windows、Mac、BSD与Android。
+Windows使用<a href="https://www.puttyi.com/tutorial.html">PuTTY</a>连接。各个Linux发行版、Mac、BSD在终端使用<code class="language-plaintext highlighter-rouge">openssh</code>连接。Android使用termux并且在termux安装<code class="language-plaintext highlighter-rouge">openssh</code>连接。</p>
+
+      <p>如何安装工具网上教程极多，在此不赘述。但在这里会说一下Artix Linux Live(就是那些教程所说的”服务器”或者”服务端”)的配置。</p>
+
+      <p>本处只介绍IPv4密码连接的方法。如果想用IPv6或者密钥连接请查询网络教程。</p>
+
+      <p>使用<a href="https://wiki.archlinuxcn.org/wiki/Vim">Vim</a>编辑sshd(即SSH的服务器守护进程)配置文件</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/ssh/sshd_config
+</code></pre></div>      </div>
+      <p>运行后会变为很多行首为<code class="language-plaintext highlighter-rouge">#</code>的语句。</p>
+
+      <p>按下键盘的<code class="language-plaintext highlighter-rouge">/</code>，你可以看到屏幕左下角出现了<code class="language-plaintext highlighter-rouge">/</code>后面跟着一个光标，这就是搜索模式。
+输入<code class="language-plaintext highlighter-rouge">PermitRootLogin</code>，然后回车搜索。可以按<code class="language-plaintext highlighter-rouge">n</code>搜索下一个或者<code class="language-plaintext highlighter-rouge">N</code>搜索上一个。找到<code class="language-plaintext highlighter-rouge">#PermitRootLogin prohibit-password</code>这一行，将光标移动到<code class="language-plaintext highlighter-rouge">#</code>后面。按一下<code class="language-plaintext highlighter-rouge">i</code>，左下变为<code class="language-plaintext highlighter-rouge">INSERT</code>，即插入模式。点一下<code class="language-plaintext highlighter-rouge">BACKSPACE</code>删除前面的<code class="language-plaintext highlighter-rouge">#</code>。然后向后移动，将<code class="language-plaintext highlighter-rouge">prohibit-password</code>删掉，改为<code class="language-plaintext highlighter-rouge">yes</code>。</p>
+
+      <p>如果删除错了，将被删除的字符再输入。如果忘记或者不确定删除的东西，不要紧张，按一下<code class="language-plaintext highlighter-rouge">ESC</code>，然后多按几下<code class="language-plaintext highlighter-rouge">u</code>来撤销操作。</p>
+
+      <p>编辑完毕后，按下<code class="language-plaintext highlighter-rouge">ESC</code>，然后按下<code class="language-plaintext highlighter-rouge">:</code>，左下角会出现<code class="language-plaintext highlighter-rouge">:</code>字符，即末行模式，再输入<code class="language-plaintext highlighter-rouge">wq</code>来保存并退出文件。</p>
+
+      <p>回到tty将显示<code class="language-plaintext highlighter-rouge">artix-live:\[root\]:~# _</code>
+然后运行</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rc-service sshd restart
+</code></pre></div>      </div>
+      <p>sshd将按照配置文件重新启动(如果未启动则会按照配置文件启动)。然后你可以通过其他设备使用SSH连接到Artix Linux Live了。</p>
+    </blockquote>
+  </li>
+  <li>换镜像源
+ 更换镜像源可以加快下载速度。这里使用南京大学的镜像源。
+    <blockquote>
+      <p>使用vim编辑Artix Linux的镜像源文件</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/pacman.d/mirrorlist
+</code></pre></div>      </div>
+      <p>然后按下<code class="language-plaintext highlighter-rouge">:%d</code>再回车清除全部内容</p>
+
+      <p>按<code class="language-plaintext highlighter-rouge">i</code>进入编辑模式，输入以下内容</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Server = https://mirror.nju.edu.cn/artixlinux/$repo/os/$arch
+</code></pre></div>      </div>
+
+      <p>输入完毕后按下<code class="language-plaintext highlighter-rouge">ESC</code>退出编辑模式，然后按下<code class="language-plaintext highlighter-rouge">:wq</code>再回车保存并退出。</p>
+
+      <p>回到tty将显示<code class="language-plaintext highlighter-rouge">artix-live:\[root\]:~# _</code></p>
+    </blockquote>
+  </li>
+  <li>
+    <p>硬盘分区</p>
+
+    <blockquote>
+      <p>使用以下命令确定你的存储设备</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lsblk
+</code></pre></div>      </div>
+
+      <p>这个命令会输出电脑能读取的<a href="https://wiki.archlinuxcn.org/wiki/Device_file">块设备</a>。判断一个硬盘是不是你想要安装Artix Linux的硬盘，只需要看硬盘各个分区大小与格式。
+需要关注两个地方
+<code class="language-plaintext highlighter-rouge">NAME</code>列是这个硬盘的块设备名称，他是一个列表结构。<code class="language-plaintext highlighter-rouge">SIZE</code>列是这个硬盘或者分区的大小。
+机械硬盘与SATA固态一般为<code class="language-plaintext highlighter-rouge">sda</code>，如果有多个硬盘则最后一个字母顺延，例如<code class="language-plaintext highlighter-rouge">sdb</code> <code class="language-plaintext highlighter-rouge">sdc</code>以此类推。而各个硬盘的分区则是后面加一个数字，多个分区则数字顺延，例如<code class="language-plaintext highlighter-rouge">sda1</code> <code class="language-plaintext highlighter-rouge">sda2</code> <code class="language-plaintext highlighter-rouge">sdb1</code> <code class="language-plaintext highlighter-rouge">sdb2</code>以此类推。</p>
+
+      <p>NVME硬盘名称以<code class="language-plaintext highlighter-rouge">nvme</code>开头。之后是一个从<code class="language-plaintext highlighter-rouge">0</code>开始的数字，表示设备控制器号。<code class="language-plaintext highlighter-rouge">nvme0</code>表示第一个发现的 NVME 控制器，<code class="language-plaintext highlighter-rouge">nvme1</code>表示第二个发现的，以此类推。然后是字母<code class="language-plaintext highlighter-rouge">n</code>和一个从<code class="language-plaintext highlighter-rouge">1</code>开始的数字，表示控制器上的设备号。比如<code class="language-plaintext highlighter-rouge">nvme0n1</code>表示第一个控制器上第一个发现的设备，<code class="language-plaintext highlighter-rouge">nvme0n2</code>表示第一个控制器上第二个发现的设备，以此类推。 而各个硬盘的分区则是后面加字母<code class="language-plaintext highlighter-rouge">p</code>和一个数字，多个分区则数字顺延，例如<code class="language-plaintext highlighter-rouge">nvme0n1p1</code> <code class="language-plaintext highlighter-rouge">nvme0n1p2</code> <code class="language-plaintext highlighter-rouge">nvme0n1p3</code>。</p>
+
+      <p><span style="color:red;">警告：接下来的行为会清除数据，务必备份好再继续。并且千万不要选错硬盘。如果没备份好，可以输入<code class="language-plaintext highlighter-rouge">poweroff</code>来关机。</span>
+使用以下命令进入分区工具</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cfdisk /dev/nvme0n1
+</code></pre></div>      </div>
+      <p>/dev/后面是你硬盘的块设备名称，你想要安装到哪个硬盘就选择哪个。示例是<code class="language-plaintext highlighter-rouge">nvme0n1</code>，实际操作以自己的<code class="language-plaintext highlighter-rouge">lsblk</code>反馈为准。<span style="color:red;">注意：这里必须选择硬盘而不是分区，如果不小心写成了分区，按下<code class="language-plaintext highlighter-rouge">Ctrl+c</code>退出分区工具。</span></p>
+
+      <p>键盘的上下键可以选择这个硬盘的分区，左右键可以选择下方的操作，高亮的就是当前选择。或者按下每个选项的首字母进行快速操作，但不建议使用这个，因为按下即触发。</p>
+
+      <p>首先删除全部硬盘分区，只留下<code class="language-plaintext highlighter-rouge">Free space</code>。
+删除完毕后，对着<code class="language-plaintext highlighter-rouge">Free space</code>选择<code class="language-plaintext highlighter-rouge">New</code>，下方会提示你<code class="language-plaintext highlighter-rouge">Partition size</code>，即分区大小，输入<code class="language-plaintext highlighter-rouge">50M</code>，回车。对着刚刚创建的50mb的分区(顶部的Size列，下面会有一个<code class="language-plaintext highlighter-rouge">50M</code>)，选择<code class="language-plaintext highlighter-rouge">Type</code>，即更改分区类型，在子菜单按键盘上下选择<code class="language-plaintext highlighter-rouge">EFI System</code>。然后对着这个分区选择<code class="language-plaintext highlighter-rouge">Bootable</code>，按一下回车。</p>
+
+      <p><a href="https://wiki.archlinuxcn.org/wiki/Swap">Swap</a>分区是可选的，本教程所展示的不会运行这一步。用于在硬盘上暂存暂时用不到内存页面的地方，以为更加常用的数据腾出更多空间。可以先不设置Swap分区，之后使用操作系统时建立Swap文件，他们的效果是一样的。如果设置了Swap分区，请自行根据实际情况判断并挂载。</p>
+
+      <p>最后是创建系统分区，同样的对着<code class="language-plaintext highlighter-rouge">Free space</code>选择<code class="language-plaintext highlighter-rouge">New</code>，但是这次在<code class="language-plaintext highlighter-rouge">Partition size</code>不输入任何东西直接回车，即创建剩余空间。然后选择<code class="language-plaintext highlighter-rouge">Type</code>，在子菜单按键盘上下选择<code class="language-plaintext highlighter-rouge">Linux filesystem</code>。</p>
+
+      <p>完成以上操作后，<span style="color:yellow;">务必选择<code class="language-plaintext highlighter-rouge">Write</code>来保存</span>，直接<code class="language-plaintext highlighter-rouge">Quit</code>或者按下<code class="language-plaintext highlighter-rouge">Ctrl+c</code>退出<strong>不会</strong>保存这些更改。
+写入后再选择<code class="language-plaintext highlighter-rouge">Quit</code>或者按下<code class="language-plaintext highlighter-rouge">Ctrl+c</code>
+回到tty将显示<code class="language-plaintext highlighter-rouge">artix-live:\[root\]:~# _</code></p>
+    </blockquote>
+  </li>
+  <li>
+    <p>创建<a href="https://wiki.archlinuxcn.org/title/File_systems">文件系统</a></p>
+
+    <p>本篇将使用<a href="https://wiki.archlinuxcn.org/wiki/Ext4">Ext4</a>文件系统，这是一种古老的文件系统，虽然没有例如<a href="https://wiki.archlinuxcn.org/wiki/Btrfs">Btrfs</a>等文件系统的高级特性，但它久经考验，极其稳定。</p>
+    <blockquote>
+      <p>将efi分区格式化为fat32</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkfs.fat -F 32 /dev/nvme0n1p1
+fatlabel /dev/nvme0n1p1 ESP
+</code></pre></div>      </div>
+
+      <p>将系统分区格式化为ext4</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkfs.ext4 -L ROOT /dev/nvme0n1p2
+</code></pre></div>      </div>
+    </blockquote>
+  </li>
+  <li>
+    <p>挂载并安装Artix Linux</p>
+
+    <p>之前极其繁琐的操作，就是为了这一刻。</p>
+    <blockquote>
+      <p>将系统分区挂载到/mnt</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mount /dev/nvme0n1p2 /nmt
+</code></pre></div>      </div>
+
+      <p>在系统分区中创建文件夹并且挂载efi分区</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir /mnt/boot/efi
+mount /dev/nvme0n1p1 /mnt/boot/efi
+</code></pre></div>      </div>
+
+      <p>安装基础系统</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>basestrap /mnt base base-devel openrc elogind-openrc linux linux-firmware vim sudo bash bash-completion firefox
+</code></pre></div>      </div>
+      <p>这将会开始从网络下载软件包，为你挂载的硬盘安装Artix Linux操作系统。这需要一定的时间。</p>
+
+      <p>运行结束后显示<code class="language-plaintext highlighter-rouge">artix-live:\[root\]:~# _</code></p>
+
+      <p>生成<a href="https://wiki.archlinuxcn.org/wiki/Fstab">fstab</a>文件</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fstabgen -U /mnt &gt;&gt; /mnt/etc/fstab
+</code></pre></div>      </div>
+
+      <p><a href="https://wiki.archlinuxcn.org/wiki/Chroot">chroot</a>到硬盘上的Artix Linux
+chroot可以让你不退出原操作系统的情况下进入目标操作系统，这个操作在无法开机时维修很常见。</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>artix-chroot /mnt # formerly artools-chroot
+</code></pre></div>      </div>
+      <p>此时tty的最后一行会改变</p>
+
+      <p>安装微码 
+根据使用的CPU安装对应的微码.注意，使用<code class="language-plaintext highlighter-rouge">pacman -S</code>命令时，会提醒你是否确认安装，直接回车即可。以下不再赘述。</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pacman -S intel-ucode
+</code></pre></div>      </div>
+
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pacman -S amd-ucode
+</code></pre></div>      </div>
+
+      <p>安装引导程序 
+到现在为止，电脑只有一个空的efi，需要安装<a href="https://wiki.archlinuxcn.org/wiki/GRUB">GRUB</a>来让电脑可以启动。</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pacman -S grub efibootmgr
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=Artix
+grub-mkconfig -o /boot/grub/grub.cfg
+</code></pre></div>      </div>
+
+      <p>设置主机名
+设置一个你喜欢的主机名，不要含有空格或者特殊字符</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/hostname
+</code></pre></div>      </div>
+      <p>进入后直接输入主机名，输入完毕按下<code class="language-plaintext highlighter-rouge">ESC</code>然后<code class="language-plaintext highlighter-rouge">:wq</code></p>
+
+      <p>接下来在设置与其匹配的条目</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/hosts
+</code></pre></div>      </div>
+      <p>输入以下内容(如果有重复的就不要输入重复内容\，注意换行。<code class="language-plaintext highlighter-rouge">HOSTNAME</code>是刚刚设置的主机名。</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>127.0.0.1   localhost
+::1         localhost
+127.0.1.1   HOSTNAME.localdomain HOSTNAME
+</code></pre></div>      </div>
+
+      <p>设置时区，时区只有上海，没有北京。</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+</code></pre></div>      </div>
+
+      <p>将系统时间同步到硬件时间</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hwclock --systohc
+</code></pre></div>      </div>
+
+      <p>设置Locale
+<code class="language-plaintext highlighter-rouge">Locale</code>决定了软件使用的语言。</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/locale.gen
+</code></pre></div>      </div>
+      <p>利用<code class="language-plaintext highlighter-rouge">/</code>来搜索，去掉<code class="language-plaintext highlighter-rouge">en_US.UTF-8 UTF-8</code>以及<code class="language-plaintext highlighter-rouge">zh_CN.UTF-8 UTF-8</code>这俩行前面的<code class="language-plaintext highlighter-rouge">#</code>
+然后按下<code class="language-plaintext highlighter-rouge">ESC</code>和<code class="language-plaintext highlighter-rouge">:wq</code>退出
+然后生成Locale</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>locale-gen
+</code></pre></div>      </div>
+      <p>创建locale.conf</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/locale.conf
+</code></pre></div>      </div>
+      <p>输入以下内容，注意换行</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LANG=en_US.UTF-8
+LANG=zh_CN.UTF-8
+</code></pre></div>      </div>
+
+      <p>为root用户设置密码</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>passwd root
+</code></pre></div>      </div>
+      <p>根据提示输入密码，千万不要忘记。输入过程不会显示，包括星号。</p>
+
+      <p>创建平时使用的用户。使用你喜欢的名字代替下文的<code class="language-plaintext highlighter-rouge">USERNAME</code></p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>useradd -m USERNAME
+</code></pre></div>      </div>
+
+      <p>为创建的用户设置密码，千万不要忘记</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>passwd USERNAME
+</code></pre></div>      </div>
+
+      <p>将创建的用户加入<a href="https://wiki.archlinuxcn.org/wiki/Sudo">sudo</a>组</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>usermod -aG wheel USERNAME
+</code></pre></div>      </div>
+
+      <p>检查sudo文件是否正确</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>visudo
+</code></pre></div>      </div>
+      <p>利用<code class="language-plaintext highlighter-rouge">/</code>搜索找到<code class="language-plaintext highlighter-rouge">%wheel ALL=(ALL:ALL) ALL</code>这一行，并且删掉行首的<code class="language-plaintext highlighter-rouge">#</code>，最后使用<code class="language-plaintext highlighter-rouge">:wq</code>保存退出。如果没有<code class="language-plaintext highlighter-rouge">#</code>就直接退出。</p>
+
+      <p>安装网络服务</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pacman -S networkmanager networkmanager-openrc
+rc-update add NetworkManager default
+</code></pre></div>      </div>
+
+      <p>安装一个桌面环境
+运行以下命令安装xfce4桌面环境。这是一个轻量的桌面环境。
+这一步你可以选择其他桌面环境，但是<a href="https://ostechnix.com/artix-linux-drops-gnome-desktop-environment/">除了GNOME</a>，因为它强依赖systemd。</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pacman -S xfce4
+</code></pre></div>      </div>
+      <p>运行后会先让你选择安装哪些东西，直接回车全部安装</p>
+
+      <p>安装中文字体</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pacman -S noto-fonts-cjk noto-fonts-emoji
+</code></pre></div>      </div>
+
+      <p>安装一个sddm登陆管理器</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pacman -S sddm sddm-openrc
+rc-update add sddm default
+</code></pre></div>      </div>
+
+      <p>退出chroot</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>exit
+</code></pre></div>      </div>
+      <p>回到tty将显示<code class="language-plaintext highlighter-rouge">artix-live:\[root\]:~# _</code></p>
+
+    </blockquote>
+  </li>
+  <li>完成安装，并享受你的新操作系统
+    <blockquote>
+      <p>输入<code class="language-plaintext highlighter-rouge">poweroff</code>关闭电脑，然后拔掉U盘，再开机。过一会电脑将会显示登陆管理器，和你的用户名，输入密码，登陆，你将会看到一个很简约的xfce4桌面。</p>
+    </blockquote>
+  </li>
+</ol>
+
+<p>以上就是安装Artxi Linux的全部内容了。这里只安装了最精简的xfce4。在后面的篇章将会讲如何去安装其他的桌面环境或者窗口管理器。</p>
+
+  </div><a class="u-url" href="/2026/05/20/artixlinux-install.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Ciallo～(∠·ω&lt; )⌒★</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Ciallo～(∠·ω&lt; )⌒★</li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/Ciallo-c"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">Ciallo-c</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
